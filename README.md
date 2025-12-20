@@ -1,1 +1,1 @@
-# KEYS-DESTROY-Premium
+DESTROY-Premium
