@@ -56,6 +56,8 @@ jobs:
           lines=("# \\🧹・Limpado HWID's Temporários")
 
           while read line; do
+            # remove qualquer quebra de linha ou retorno de carro no final
+            line=$(echo "$line" | tr -d '\r\n')
             lines+=("- \`$line\`")
           done < expired.log
 
