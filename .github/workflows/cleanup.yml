@@ -52,14 +52,17 @@ jobs:
     - name: LOGS - DISCORD
       run: |
         if [ -s expired.log ]; then
-          # inicializa a mensagem com #, emoji e primeira linha
-          msg="# 🧹・Limpado HWID's Temporários"
+          # inicializa a mensagem com #, \ e emoji
+          lines=("# \\🧹・Limpado HWID's Temporários")
 
           while read line; do
-            msg="$msg- \`$line\`"
+            lines+=("- \`$line\`")
           done < expired.log
 
-          # envia pro Discord com JSON seguro via jq
+          # junta todas as linhas com quebras de linha reais
+          msg=$(printf "%s\n" "${lines[@]}")
+
+          # envia pro Discord com JSON seguro
           curl -s -H "Content-Type: application/json" \
                -X POST \
                -d "$(jq -Rn --arg m "$msg" '{content:$m}')" \
