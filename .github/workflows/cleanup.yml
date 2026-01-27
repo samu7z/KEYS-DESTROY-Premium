@@ -49,12 +49,12 @@ jobs:
         mv HWIDS.new HWIDS.txt
 
     # 3️⃣ Log no Discord
-    - name: Avisar no Discord
+    - name: LOGS - DISCORD
       run: |
         if [ -s expired.log ]; then
-          msg="🧹 **HWIDs expirados removidos:**\n"
+          msg="# \🧹・Limpado HWID's Temporários\n"
           while read line; do
-            msg="$msg• \`$line\`\n"
+            msg="$msg- \`$line\`\n"
           done < expired.log
 
           curl -H "Content-Type: application/json" \
@@ -64,7 +64,7 @@ jobs:
         fi
 
     # 4️⃣ Commit automático
-    - name: Commit automático
+    - name: COMMIT
       run: |
         git config user.name "HWID-Bot"
         git config user.email "bot@github.com"
