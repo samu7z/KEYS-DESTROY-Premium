@@ -52,14 +52,17 @@ jobs:
     - name: LOGS - DISCORD
       run: |
         if [ -s expired.log ]; then
-          msg="# \\🧹・Limpado HWID's Temporários"$'\n'
+          # inicializa a mensagem com #, \ e emoji
+          msg="# 🧹・Limpado HWID's Temporários"
+
           while read line; do
-            msg="$msg- \`$line\`"$'\n'
+            msg="$msg\n- \`$line\`"
           done < expired.log
 
-          curl -H "Content-Type: application/json" \
+          # envia pro Discord, escapando caracteres especiais
+          curl -s -H "Content-Type: application/json" \
                -X POST \
-               -d '{"content": "'"$msg"'"}' \
+               -d "$(jq -Rn --arg m "$msg" '{content:$m}')" \
                ${{ secrets.DISCORD_WEBHOOK }}
         fi
 
